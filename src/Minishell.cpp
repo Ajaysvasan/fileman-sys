@@ -13,6 +13,7 @@
 
 static std::string curr_dir;
 
+// Parsers the current input/command
 std::vector<std::string> parser(std::string command) {
 	std::vector<std::string> tokens;
 	std::stringstream ss(command);
@@ -34,6 +35,7 @@ std::vector<std::string> parser(std::string command) {
 	return tokens;
 }
 
+//Gets command from the user 
 std::string getCommand() {
 	std::string command;
 	std::cout << "MiniShell>";
@@ -41,6 +43,7 @@ std::string getCommand() {
 	return command;
 }
 
+// Identifies the type of command
 static int CommandType(std::vector<std::string>tokens) {
 	if (tokens[0] == "mkdir") return MKDIR;
 	else if (tokens[0] == "create") return CREATE;
@@ -53,21 +56,25 @@ static int CommandType(std::vector<std::string>tokens) {
 	else return INVALID;
 }
 
+
 Commands::Commands(const std::string& input) {
 	std::cout << "This is got executed\n";
 	command = input;
 	tokens = parser(command);
 }
 
+//Removes the command from the vector
 void Commands::clear() {
 	tokens.clear();
 	command.clear();
 }
 
+// Clears the buffer 
 Commands::~Commands() {
 	clear();
 }
 
+// Checks if the entered command is valid or not
 bool Commands::validCommand() {
 	// We have only 2 special cases i.e write which expects more than 2 args and ls which doesn't expect any args
 	int commandType = CommandType(tokens);
@@ -85,6 +92,7 @@ bool Commands::validCommand() {
 	return false;
 }
 
+// Makes a dir 
 bool Commands::MakedirCommand() {
 	if (validCommand()) {
 		const std::string& dir_name = tokens[1];
@@ -104,6 +112,7 @@ bool Commands::MakedirCommand() {
 	return false;
 }
 
+// Changes the current working directory
 bool Commands::CdCommand() {
 	if (validCommand()) {
 		const std::string& dir_name = tokens[1];
@@ -118,6 +127,7 @@ bool Commands::CdCommand() {
 	return false;
 }
 
+// Create a file or a folder 
 bool Commands::CreateCommand() {
 	if (validCommand()) {
 		const std::string& file_name = tokens[1];
@@ -141,6 +151,7 @@ bool Commands::CreateCommand() {
 	return false;
 }
 
+// To display all the files and folder in the current directory
 bool Commands::LsCommand() {
 	if (!validCommand()) {
 		return false;
@@ -153,8 +164,7 @@ bool Commands::LsCommand() {
 	return true;
 }
 
-
-
+// Delete a file from the directory
 bool Commands::DeleteCommand(){
 	if (validCommand()) {
 		const std::string& file_name = tokens[1];
@@ -174,7 +184,7 @@ bool Commands::DeleteCommand(){
 	std::cerr<<"Invalid Command Type\n";
 	return false;
 }
-
+// To write content in the file
 bool Commands::WriteCommand() {
 	// write <file_name> content
 	if (!validCommand()) {
@@ -199,6 +209,7 @@ bool Commands::WriteCommand() {
 		return false;
 }
 
+// TO remove a directory 
 bool Commands::RmdirCommand() {
 if (validCommand()) {
 		const std::string& dir_path = tokens[1];

@@ -26,7 +26,6 @@ void createLogs();
 bool lastLog();
 // This function will write the log in the logs file.
 bool writeLogs();
-
 class Commands {
 private:
 	std::vector<std::string> tokens;
